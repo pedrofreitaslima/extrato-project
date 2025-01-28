@@ -22,3 +22,14 @@ resource "aws_msk_serverless_cluster" "extrato_lancamento_msk_serverless_cluster
 
   tags = local.custom_tags
 }
+
+resource "aws_mskconnect_custom_plugin" "extrato_lancamento_mskconnect_custom_plugin" {
+  name         = "debezium-example"
+  content_type = "ZIP"
+  location {
+    s3 {
+      ser = aws_s3_bucket.example.arn
+      file_key   = aws_s3_object.example.key
+    }
+  }
+}

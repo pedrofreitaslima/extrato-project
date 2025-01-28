@@ -1,6 +1,6 @@
-data "archive_file" "lambda_function_zip" {
+data "archive_file" "zip_the_python_code" {
   type        = "zip"
-  source_file = "app/lambda_bootstrap/lambda_function.py"
+  source_dir = "${path.module}/../app/lambda_bootstrap/"
   output_path = "lambda_function_payload.zip"
 }
 
