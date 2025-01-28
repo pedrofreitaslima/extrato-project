@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "extrato_lancamento_msk_ec2client_policy_document
     ]
     effect = "Allow"
     resources = [
-      "*" # TODO: Alter to cluster MSK serverless ARN
+      aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
     ]
   }
 
@@ -93,7 +93,8 @@ data "aws_iam_policy_document" "extrato_lancamento_msk_ec2client_policy_document
     ]
     effect = "Allow"
     resources = [
-      "*" # TODO: Alter to add S3 bucket ARN
+      aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn,
+      aws_s3_bucket.extrato_lancamento_gluescript_bucket.arn
     ]
   }
 }
@@ -120,7 +121,8 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_secleanup_policy_doc
     ]
     effect = "Allow"
     resources = [
-      "*" # TODO: Alter to add S3 bucket ARN
+      aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn,
+      aws_s3_bucket.extrato_lancamento_gluescript_bucket.arn
     ]
   }
 }
@@ -133,7 +135,7 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
     ]
     effect = "Allow"
     resources = [
-      "*" # TODO: Alter to cluster MSK serverless ARN
+      aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
     ]
   }
 
@@ -155,7 +157,8 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
     ]
     effect = "Allow"
     resources = [
-      "*" # TODO: Alter to add S3 bucket ARN
+      aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn,
+      aws_s3_bucket.extrato_lancamento_gluescript_bucket.arn
     ]
   }
 }
@@ -212,4 +215,12 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_secleanup
 resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_secleanup_policy_attach" {
   role       = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
   policy_arn = aws_iam_policy.extrato_lancamento_glue_msk_getbroker_policy.arn
+}
+
+#######################################################################################################################
+#### Instance Profile
+#######################################################################################################################
+resource "aws_iam_instance_profile" "extrato_lancamento_instance_profile" {
+  name = "${local.domain_name}-msk-ec2client"
+  role = aws_iam_role.extrato_lancamento_msk_ec2client_role.name
 }

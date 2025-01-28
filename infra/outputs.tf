@@ -115,3 +115,11 @@ output "extrato_lancamento_gluescript_bucket" {
   value       = aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn
   description = "The ARN of the S3 bucket dedicated to project Extrato Lancamento for glue script"
 }
+
+#######################################################################################################################
+#### MSK Cluster
+#######################################################################################################################
+output "extrato_lancamento_msk_serverless_cluster_arn" {
+  value       = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
+  description = "The ARN of the MSK serverless cluster dedicated to project Extrato Lancamento"
+}

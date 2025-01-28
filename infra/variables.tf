@@ -46,6 +46,12 @@ variable "instance_type_ec2" {
   }
 }
 
+variable "latest_ami_id" {
+  type        = string
+  default     = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  description = "Please enter latest AMI ID of Amazon Linux 2 for ec2 instance. You can use the default value."
+}
+
 #######################################################################################################################
 #### Networking
 #######################################################################################################################
