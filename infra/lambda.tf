@@ -13,3 +13,13 @@ resource "aws_lambda_function" "extrato_lancamento_msk_bootstrap_brokers_functio
   timeout       = 30
   tags          = local.custom_tags
 }
+
+resource "aws_lambda_invocation" "extrato_lancamento_bootstrap_brokers_invocation" {
+  function_name = aws_lambda_function.extrato_lancamento_msk_bootstrap_brokers_function.function_name
+
+  input = jsonencode({
+    ClusterArn                = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
+    privateSubnetId           = aws_subnet.extrato_lancamento_private_subnet_1.id
+    S3BucketForGlueScriptCopy = aws_s3_bucket.extrato_lancamento_gluescript_bucket.id
+  })
+}
