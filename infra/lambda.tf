@@ -8,8 +8,8 @@ resource "aws_lambda_function" "extrato_lancamento_msk_bootstrap_brokers_functio
   filename      = "lambda_function_payload.zip"
   function_name = "${local.domain_name}-msk-bootstrap-brokers"
   role          = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.arn
-  handler       = "index.lambda_handler"
-  runtime       = "python3.10"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.12"
   timeout       = 30
   tags          = local.custom_tags
 }

@@ -1,6 +1,4 @@
-import json
 import logging
-import cfnresponse
 import boto3
 
 session = boto3.session.Session()
@@ -13,7 +11,6 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     logger.info(event)
-    responseStatus = cfnresponse.FAILED
     responseData = {}
     ClusterArn = event['ResourceProperties'].get('ClusterArn')
     if ClusterArn:
@@ -24,7 +21,6 @@ def lambda_handler(event, context):
         )
         logger.info(response)
         if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
-            responseStatus = cfnresponse.SUCCESS
             responseData['BootstrapBrokerStringSaslIam'] = response['BootstrapBrokerStringSaslIam']
 
       except Exception:
@@ -38,7 +34,6 @@ def lambda_handler(event, context):
         responseec2 = ec2client.describe_subnets(SubnetIds=[Subnetid])
         logger.info(responseec2)
         if (responseec2['ResponseMetadata']['HTTPStatusCode'] == 200):
-            responseStatus = cfnresponse.SUCCESS
             responseData['privatesubnetAZ'] = responseec2["Subnets"][0]["AvailabilityZone"]
 
       except Exception:
