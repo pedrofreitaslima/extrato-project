@@ -6,5 +6,5 @@ resource "aws_instance" "extrato_lancamento_msk_ec2_client" {
     aws_security_group.extrato_lancamento_sg.id
   ]
   user_data = file("userdata.sh")
-  tags = local.custom_tags
+  tags      = local.custom_tags
 }

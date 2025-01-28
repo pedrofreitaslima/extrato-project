@@ -144,8 +144,8 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
     actions = [
       "ec2:DescribeSubnets"
     ]
-    effect = "Allow"
-    resources = "*"
+    effect    = "Allow"
+    resources = ["*"]
   }
 
   statement {
@@ -192,13 +192,13 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_ssm_full_access_ro
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "extrato_lancamento_lambda_basic_execution_role_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_secleanup_lambda_basic_execution_role_policy_attachment" {
   role       = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_iam_role_policy_attachment" "extrato_lancamento_lambda_basic_execution_role_policy_attachment" {
-  role       = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.name
+resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_getbroker_lambda_basic_execution_role_policy_attachment" {
+  role       = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
@@ -212,7 +212,7 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_secleanup
   policy_arn = aws_iam_policy.extrato_lancamento_glue_msk_secleanup_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_secleanup_policy_attach" {
+resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_msk_getbroker_policy_attach" {
   role       = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
   policy_arn = aws_iam_policy.extrato_lancamento_glue_msk_getbroker_policy.arn
 }
