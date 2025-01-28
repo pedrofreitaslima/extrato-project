@@ -1,1 +1,6 @@
 *terraform*
+*.xml
+*.iml
+*.idea
+*.vs
+*.vscode
