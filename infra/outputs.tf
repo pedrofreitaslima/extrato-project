@@ -123,3 +123,11 @@ output "extrato_lancamento_msk_serverless_cluster_arn" {
   value       = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
   description = "The ARN of the MSK serverless cluster dedicated to project Extrato Lancamento"
 }
+
+#######################################################################################################################
+#### ECS instance for MSK Client
+#######################################################################################################################
+output "extrato_lancamento_msk_ec2_client_arn" {
+  value       = aws_instance.extrato_lancamento_msk_ec2_client.arn
+  description = "The ARN of the EC2 instance for MSK cliente dedicated to project Extrato Lancamento"
+}
