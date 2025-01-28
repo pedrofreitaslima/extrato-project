@@ -1,0 +1,46 @@
+{
+    "numeroIdentificacaoLancamentoConta": "4c17ab3e-1d1f-1234-bd30-b59de656af47",
+    "valorLancamento": 13.0,
+    "codigoMoedaTransacao": "BRL",
+    "tipoEvento": "lancamento",
+    "siglaSistemaOrigem": "DY5",
+    "codigoMotivoLancamento": "9508",
+    "descricaoCurta": "PIX TRANSF KAIKE F 03/10",
+    "descricaoCompleta": "PIX TRANSF KAIKE F 03/10",
+    "indicadorLancamentoVisivelCliente": true,
+    "indicadorLancamentoCompulsorioOcorrencia": true,
+    "indicadorLancamentoCompulsorioSaldo": false,
+    "indicadorEstorno": false,
+    "conta": {
+        "numeroUnicoConta": "c7eaa9a9-5ae7-39d1-8114-98e4f2a30d33",
+        "codigoTipoSubConta": "conta_corrente:disponivel"
+    },
+    "indicadorDetalhes": true,
+    "dataContabil": "2024-10-03",
+    "dataHoraLancamento": "2024-10-03T19:45:26.848091-03:00",
+    "dataHoraVisualizacao": "2024-10-03T19:45:26.848091-03:00",
+    "indicadorDebito": false,
+    "codigoLegenda": "",
+    "descricaoLegenda": "",
+    "dica": "",
+    "codigoAgrupamento": "R492000051515",
+    "indicadorAnotacao": false,
+    "indicadorLancamentoFinalOito": false,
+    "contraParteTransacao": {
+        "codigoTipoConta": "CONTA_CORRENTE",
+        "codigoIspb": "90400888",
+        "numeroAgenciaConta": "4664",
+        "numeroConta": "2014019",
+        "numeroDigitoVerificadorConta": "5",
+        "nomeClienteConta": "*****",
+        "numeroDocumentoConta": "09980248744",
+        "codigoTipoPessoaConta": "FISICA"
+    },
+    "origemTransacao": {
+        "textoTipoOperacaoSistemaOrigem": "PIX_RECEPCAO",
+        "siglaSistemaOrigem": "DY5",
+        "identificadorOrigemTransacao": "E9040088820241003224527912860620",
+        "identificadorProduto": "PIX_INDIRETOS",
+        "complementoCanal": "QRDN"
+    }
+}
