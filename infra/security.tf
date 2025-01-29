@@ -302,7 +302,7 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_service_role_
 }
 
 resource "aws_iam_role_policy_attachment" "extrato_lancamento_msk_ec2client_policy_attach" {
-  role       = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
+  role       = aws_iam_role.extrato_lancamento_msk_ec2client_role.name
   policy_arn = aws_iam_policy.extrato_lancamento_msk_ec2client_policy.arn
 }
 
