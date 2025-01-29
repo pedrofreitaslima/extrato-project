@@ -47,3 +47,16 @@ def lambda_handler(event, context):
                 'message': f"Error validating clean up S3 and IAM: {str(e)}"
             }
         }
+
+
+# if __name__ == "__main__":
+#     event = {
+#         "BucketName": "aws-gluescript-extrato-lancamento-efetivado",
+#         "IamRole": "extrato-lancamento-efetivado-glue-msk-getbroker-role"
+#     }
+#
+#     context = {
+#
+#     }
+#
+#     lambda_handler(event, context)
