@@ -131,7 +131,8 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
   statement {
     sid = "AllowGetBootstrapBrokers"
     actions = [
-      "kafka:GetBootstrapBrokers"
+      "kafka:GetBootstrapBrokers",
+      "kafka:DescribeCluster"
     ]
     effect = "Allow"
     resources = [
@@ -145,15 +146,25 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
       "ec2:DescribeSubnets"
     ]
     effect    = "Allow"
-    resources = ["*"]
+    resources = [aws_instance.extrato_lancamento_msk_ec2_client.arn]
+  }
+
+  statement {
+    sid = "AllowObservability"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    effect    = "Allow"
+    resources = ["arn:aws:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:*"]
   }
 
   statement {
     sid = "AllowMSKS3"
     actions = [
-      "s3:Get*",
-      "s3:PutObject*",
-      "s3:List*"
+      "s3:GetObject",
+      "s3:PutObject*"
     ]
     effect = "Allow"
     resources = [
