@@ -45,7 +45,7 @@ data "archive_file" "zip_the_python_code_cleanup" {
   output_path = "${path.module}/lambda_function_payload.zip"
 }
 
-resource "aws_lambda_function" "extrato_lancamento_msk_bootstrap_brokers_function" {
+resource "aws_lambda_function" "extrato_lancamento_msk_cleanup_function" {
   filename         = data.archive_file.zip_the_python_code_cleanup.output_path
   function_name    = "${local.domain_name}-msk-bootstrap-brokers"
   role             = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.arn
