@@ -164,11 +164,10 @@ data "aws_iam_policy_document" "extrato_lancamento_glue_msk_getbroker_policy_doc
     sid = "AllowMSKS3"
     actions = [
       "s3:GetObject",
-      "s3:PutObject*"
+      "s3:PutObject"
     ]
     effect = "Allow"
     resources = [
-      aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn,
       aws_s3_bucket.extrato_lancamento_gluescript_bucket.arn
     ]
   }
