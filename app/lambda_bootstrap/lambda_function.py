@@ -5,7 +5,6 @@ import logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-session = boto3.session.Session(region_name='us-east-1')
 
 
 
@@ -20,7 +19,7 @@ def lambda_handler(event, context):
             raise ValueError("Missing required parameters in event")
 
         # Initialize Kafka client
-        kafka_client = session.client('kafka')
+        kafka_client = boto3.client('kafka')
 
         # Get bootstrap broker information
         response = kafka_client.get_bootstrap_brokers(
@@ -34,7 +33,7 @@ def lambda_handler(event, context):
             raise Exception("No bootstrap brokers found for the cluster")
 
         # Store bootstrap brokers in S3
-        s3_client = session.client('s3')
+        s3_client = boto3.client('s3')
         bootstrap_config = {
             'bootstrapServers': bootstrap_brokers,
             'privateSubnetId': private_subnet_id
@@ -68,13 +67,13 @@ def lambda_handler(event, context):
             }
         }
 
-if __name__ == "__main__":
-    event = {
-        "ClusterArn": "arn:aws:kafka:us-east-1:160885283918:cluster/extrato-lancamento-efetivado-cluster/64c76c1c-a6c1-4a30-8fbb-a0fec3595625-s2",
-        "privateSubnetId":  "subnet-005ceae0d1aa8a3c6",
-        "S3BucketForGlueScriptCopy": "aws-gluescript-extrato-lancamento-efetivado"
-    }
-    context = {
-
-    }
-    lambda_handler(event, context)
+# if __name__ == "__main__":
+#     event = {
+#         "ClusterArn": "arn:aws:kafka:us-east-1:160885283918:cluster/extrato-lancamento-efetivado-cluster/64c76c1c-a6c1-4a30-8fbb-a0fec3595625-s2",
+#         "privateSubnetId":  "subnet-005ceae0d1aa8a3c6",
+#         "S3BucketForGlueScriptCopy": "aws-gluescript-extrato-lancamento-efetivado"
+#     }
+#     context = {
+#
+#     }
+#     lambda_handler(event, context)
