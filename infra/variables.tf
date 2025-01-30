@@ -40,12 +40,6 @@ variable "public_subnet1_cidr" {
   description = "Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone"
 }
 
-variable "public_subnet2_cidr" {
-  type        = string
-  default     = ""
-  description = "Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone"
-}
-
 variable "public_subnet3_cidr" {
   type        = string
   default     = ""
