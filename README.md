@@ -6,6 +6,7 @@
 + [Resources](#resources)
 + [Git Workflow](#git-workflow)
 + [Solution Architect](#solution-architect)
++ [How to run](#how-to-run)
 + [Authors](#authors)
 
 ### <a id="description">Description</a>
@@ -61,6 +62,31 @@ According to the documentation in this link: https://www.atlassian.com/git/tutor
 ### <a id="solution-architect">Solution Architect</a>
 ![Solution Architect ](/docs/images/macro-solution-architect.png)
 
+### <a id="how-to-run">How to run</a>
+1. First clone GitHub repository:
+```bash
+git clone git@github.com:pedrofreitaslima/extrato-project.git
+```
+2. Second inside this repository then enter in directory called infra to run terraform:
+```bash
+cd ./infra
+```
+3. Then, we'll can log in in our AWS account using AWS CLI how you can do it this process it's not important, but we can 
+log in in some AWS account in you local machine 
+4. Now we run terraform commands to deploy our application:
+```bash
+terraform fmt
+terraform validate
+terraform plan -var-file="./inventoris/development/environment.tfvars"
+terraform apply -var-file="./inventoris/development/environment.tfvars"
+```
+4. Then, you sign in in AWS Console of your account and find all resources created.
+5. To produce some event we can run the lambda called **extrato-lancamento-efetivado-msk-producer-kafka**, use the payload bellow:
+
+NOTE: If you can destroy everything use the command bellow:
+```bash
+terraform destroy -var-file="./inventoris/development/environment.tfvars"
+```
 ### <a id="authors">Authors</a>
 &copy; **BRQ** </br>
 &copy; **AWS** </br>
