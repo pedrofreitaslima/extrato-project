@@ -90,7 +90,7 @@ output "extrato_lancamento_sg_egress_all_arn" {
 #### Security
 #######################################################################################################################
 output "extrato_lancamento_msk_ec2client_role_arn" {
-  value       = aws_iam_role.extrato_lancamento_msk_ec2client_role.arn
+  value       = aws_iam_role.extrato_lancamento_msk_producer_kafka_lambda_role.arn
   description = "The ARN of the iam role dedicated to project Extrato Lancamento"
 }
 
@@ -122,12 +122,4 @@ output "extrato_lancamento_gluescript_bucket" {
 output "extrato_lancamento_msk_serverless_cluster_arn" {
   value       = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
   description = "The ARN of the MSK serverless cluster dedicated to project Extrato Lancamento"
-}
-
-#######################################################################################################################
-#### ECS instance for MSK Client
-#######################################################################################################################
-output "extrato_lancamento_msk_ec2_client_arn" {
-  value       = aws_instance.extrato_lancamento_msk_ec2_client.arn
-  description = "The ARN of the EC2 instance for MSK cliente dedicated to project Extrato Lancamento"
 }

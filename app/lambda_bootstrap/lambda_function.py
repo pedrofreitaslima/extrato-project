@@ -1,40 +1,79 @@
-import logging
 import boto3
+import json
+import logging
 
-session = boto3.session.Session()
-client = session.client('kafka')
-ec2client = boto3.client('ec2')
-s3client = boto3.client('s3')
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
+
 def lambda_handler(event, context):
-    logger.info(event)
-    responseData = {}
-    ClusterArn = event['ResourceProperties'].get('ClusterArn')
-    if ClusterArn:
-      try:
-        ClusterArn = event['ResourceProperties']['ClusterArn']
-        response = client.get_bootstrap_brokers(
-            ClusterArn=ClusterArn
+    try:
+        # Extract parameters from the event
+        cluster_arn = event.get('ClusterArn')
+        private_subnet_id = event.get('privateSubnetId')
+        s3_bucket = event.get('S3BucketForGlueScriptCopy')
+
+        if not all([cluster_arn, private_subnet_id, s3_bucket]):
+            raise ValueError("Missing required parameters in event")
+
+        # Initialize Kafka client
+        kafka_client = boto3.client('kafka')
+
+        # Get bootstrap broker information
+        response = kafka_client.get_bootstrap_brokers(
+            ClusterArn=cluster_arn
         )
-        logger.info(response)
-        if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
-            responseData['BootstrapBrokerStringSaslIam'] = response['BootstrapBrokerStringSaslIam']
 
-      except Exception:
-        logger.exception('Signaling failure to CloudFormation.')
+        # Get the bootstrap broker strings
+        bootstrap_brokers = response.get('BootstrapBrokerStringSaslIam')
 
+        if not bootstrap_brokers:
+            raise Exception("No bootstrap brokers found for the cluster")
 
-    Subnetid = event['ResourceProperties'].get('privateSubnetId')
-    if Subnetid:
-      try:
-        Subnetid = event['ResourceProperties']['privateSubnetId']
-        responseec2 = ec2client.describe_subnets(SubnetIds=[Subnetid])
-        logger.info(responseec2)
-        if (responseec2['ResponseMetadata']['HTTPStatusCode'] == 200):
-            responseData['privatesubnetAZ'] = responseec2["Subnets"][0]["AvailabilityZone"]
+        # Store bootstrap brokers in S3
+        s3_client = boto3.client('s3')
+        bootstrap_config = {
+            'bootstrapServers': bootstrap_brokers,
+            'privateSubnetId': private_subnet_id
+        }
 
-      except Exception:
-        logger.exception('Signaling failure to CloudFormation.')
+        # Save the configuration to S3
+        s3_client.put_object(
+            Bucket=s3_bucket,
+            Key='msk-config/bootstrap-config.json',
+            Body=json.dumps(bootstrap_config),
+            ContentType='application/json'
+        )
+
+        logger.info(f"Successfully validated and stored bootstrap configuration for cluster: {cluster_arn}")
+
+        return {
+            'statusCode': 200,
+            'body': {
+                'message': 'Bootstrap brokers validated and stored successfully',
+                'bootstrapBrokers': bootstrap_brokers,
+                'configLocation': f"s3://{s3_bucket}/msk-config/bootstrap-config.json"
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Error validating bootstrap brokers: {str(e)}")
+        return {
+            'statusCode': 500,
+            'body': {
+                'message': f"Error validating bootstrap brokers: {str(e)}"
+            }
+        }
+
+# if __name__ == "__main__":
+#     event = {
+#         "ClusterArn": "arn:aws:kafka:us-east-1:160885283918:cluster/extrato-lancamento-efetivado-cluster/64c76c1c-a6c1-4a30-8fbb-a0fec3595625-s2",
+#         "privateSubnetId":  "subnet-005ceae0d1aa8a3c6",
+#         "S3BucketForGlueScriptCopy": "aws-gluescript-extrato-lancamento-efetivado"
+#     }
+#     context = {
+#
+#     }
+#     lambda_handler(event, context)

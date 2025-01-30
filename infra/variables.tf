@@ -36,22 +36,6 @@ variable "custom_tags" {
   description = "A map of custom tags to be applied to all resources"
 }
 
-variable "instance_type_ec2" {
-  type        = string
-  default     = ""
-  description = "Please enter the instance type for EC2"
-  validation {
-    condition     = contains(["t2.micro", "t2.small", "t2.medium", "t3.micro", "t3.small", "t3.medium", "t3.large"], var.instance_type_ec2)
-    error_message = "Valid values for var: instance_type_ec2 are ('t2.micro', 't2.small', 't2.medium', 't3.micro', 't3.small', 't3.medium', 't3.large')."
-  }
-}
-
-variable "latest_ami_id" {
-  type        = string
-  default     = "ami-0f214d1b3d031dc53"
-  description = "Please enter latest AMI ID of Amazon Linux 2 for ec2 instance. You can use the default value."
-}
-
 #######################################################################################################################
 #### Networking
 #######################################################################################################################
