@@ -66,3 +66,4 @@ According to the documentation in this link: https://www.atlassian.com/git/tutor
 &copy; **AWS** </br>
 &copy; **pedrofreitaslima** </br>
 &copy; **Itau**
+
