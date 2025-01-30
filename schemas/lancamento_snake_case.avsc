@@ -1,0 +1,72 @@
+{
+  "type": "record",
+  "name": "Lancamento",
+  "namespace": "com.example",
+  "fields": [
+    {"name": "numero_identificacao_lancamento_conta", "type": "string"},
+    {"name": "valor_lancamento", "type": "double"},
+    {"name": "codigo_moeda_transacao", "type": "string"},
+    {"name": "tipo_evento", "type": "string"},
+    {"name": "sigla_sistema_origem", "type": "string"},
+    {"name": "codigo_motivo_lancamento", "type": "string"},
+    {"name": "descricao_curta", "type": "string"},
+    {"name": "descricao_completa", "type": "string"},
+    {"name": "indicador_lancamento_visivel_cliente", "type": "boolean"},
+    {"name": "indicador_lancamento_compulsorio_ocorrencia", "type": "boolean"},
+    {"name": "indicador_lancamento_compulsorio_saldo", "type": "boolean"},
+    {"name": "indicador_estorno", "type": "boolean"},
+    {
+      "name": "conta",
+      "type": {
+        "type": "record",
+        "name": "Conta",
+        "fields": [
+          {"name": "numero_unico_conta", "type": "string"},
+          {"name": "codigo_tipo_sub_conta", "type": "string"}
+        ]
+      }
+    },
+    {"name": "indicador_detalhes", "type": "boolean"},
+    {"name": "data_contabil", "type": ["null", "string"]},
+    {"name": "data_hora_lancamento", "type": "string"},
+    {"name": "data_hora_visualizacao", "type": "string"},
+    {"name": "indicador_debito", "type": "boolean"},
+    {"name": "codigo_legenda", "type": ["null", "string"], "default": null},
+    {"name": "descricao_legenda", "type": ["null", "string"], "default": null},
+    {"name": "dica", "type": ["null", "string"], "default": null},
+    {"name": "codigo_agrupamento", "type": "string"},
+    {"name": "indicador_anotacao", "type": "boolean"},
+    {"name": "indicador_lancamento_final_oito", "type": "boolean"},
+    {
+      "name": "contra_parte_transacao",
+      "type": {
+        "type": "record",
+        "name": "ContraParteTransacao",
+        "fields": [
+          {"name": "codigo_tipo_conta", "type": "string"},
+          {"name": "codigo_ispb", "type": "string"},
+          {"name": "numero_agencia_conta", "type": "string"},
+          {"name": "numero_conta", "type": "string"},
+          {"name": "numero_digito_verificador_conta", "type": "string"},
+          {"name": "nome_cliente_conta", "type": "string"},
+          {"name": "numero_documento_conta", "type": "string"},
+          {"name": "codigo_tipo_pessoa_conta", "type": "string"}
+        ]
+      }
+    },
+    {
+      "name": "origem_transacao",
+      "type": {
+        "type": "record",
+        "name": "OrigemTransacao",
+        "fields": [
+          {"name": "texto_tipo_operacao_sistema_origem", "type": "string"},
+          {"name": "sigla_sistema_origem", "type": "string"},
+          {"name": "identificador_origem_transacao", "type": "string"},
+          {"name": "identificador_produto", "type": "string"},
+          {"name": "complemento_canal", "type": "string"}
+        ]
+      }
+    }
+  ]
+}

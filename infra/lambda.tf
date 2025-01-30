@@ -10,7 +10,7 @@ data "archive_file" "zip_the_python_code_getbroker" {
 resource "aws_lambda_function" "extrato_lancamento_msk_bootstrap_brokers_function" {
   filename         = data.archive_file.zip_the_python_code_getbroker.output_path
   function_name    = "${local.domain_name}-msk-bootstrap-brokers"
-  role             = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.arn
+  role             = aws_iam_role.extrato_lancamento_lambda_msk_getbroker_role.arn
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.zip_the_python_code_getbroker.output_base64sha256
   runtime          = "python3.11"
@@ -24,7 +24,7 @@ resource "aws_lambda_invocation" "extrato_lancamento_bootstrap_brokers_invocatio
   input = jsonencode({
     ClusterArn                = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
     privateSubnetId           = aws_subnet.extrato_lancamento_private_subnet_1.id
-    S3BucketForGlueScriptCopy = aws_s3_bucket.extrato_lancamento_gluescript_bucket.bucket
+    S3BucketForGlueScriptCopy = aws_s3_bucket.extrato_lancamento_input_glue_bucket.bucket
   })
 
   lifecycle {
@@ -48,7 +48,7 @@ data "archive_file" "zip_the_python_code_cleanup" {
 resource "aws_lambda_function" "extrato_lancamento_msk_cleanup_function" {
   filename         = data.archive_file.zip_the_python_code_cleanup.output_path
   function_name    = "${local.domain_name}-msk-cleanup-s3bucket-iamrole"
-  role             = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.arn
+  role             = aws_iam_role.extrato_lancamento_lambda_cleanup_role.arn
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.zip_the_python_code_cleanup.output_base64sha256
   runtime          = "python3.11"
@@ -60,13 +60,13 @@ resource "aws_lambda_invocation" "extrato_lancamento_cleanup_getbroket_invocatio
   function_name   = aws_lambda_function.extrato_lancamento_msk_bootstrap_brokers_function.function_name
   lifecycle_scope = "CRUD"
   input = jsonencode({
-    "IamRole"    = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
-    "BucketName" = aws_s3_bucket.extrato_lancamento_gluescript_bucket.bucket
+    "IamRole"    = aws_iam_role.extrato_lancamento_lambda_msk_getbroker_role.name
+    "BucketName" = aws_s3_bucket.extrato_lancamento_input_glue_bucket.bucket
     "tf" = {
       "action" = "delete"
       "prev_input" = {
-        "IamRole"    = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.name
-        "BucketName" = aws_s3_bucket.extrato_lancamento_gluescript_bucket.bucket
+        "IamRole"    = aws_iam_role.extrato_lancamento_lambda_msk_getbroker_role.name
+        "BucketName" = aws_s3_bucket.extrato_lancamento_input_glue_bucket.bucket
       }
     }
   })
@@ -81,13 +81,13 @@ resource "aws_lambda_invocation" "extrato_lancamento_cleanup_output_invocation" 
   lifecycle_scope = "CRUD"
 
   input = jsonencode({
-    "IamRole"    = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.name
-    "BucketName" = aws_s3_bucket.extrato_lancamento_glueoutput_bucket.bucket
+    "IamRole"    = aws_iam_role.extrato_lancamento_lambda_cleanup_role.name
+    "BucketName" = aws_s3_bucket.extrato_lancamento_output_glue_bucket.bucket
     "tf" = {
       "action" = "delete"
       "prev_input" = {
-        "IamRole"    = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.name
-        "BucketName" = aws_s3_bucket.extrato_lancamento_glueoutput_bucket.bucket
+        "IamRole"    = aws_iam_role.extrato_lancamento_lambda_cleanup_role.name
+        "BucketName" = aws_s3_bucket.extrato_lancamento_output_glue_bucket.bucket
       }
     }
   })
@@ -110,23 +110,22 @@ data "archive_file" "zip_the_python_code_producer_kafka" {
 resource "aws_lambda_function" "extrato_lancamento_msk_producer_kafka_function" {
   filename         = data.archive_file.zip_the_python_code_producer_kafka.output_path
   function_name    = "${local.domain_name}-msk-producer-kafka"
-  role             = aws_iam_role.extrato_lancamento_msk_producer_kafka_lambda_role.arn
+  role             = aws_iam_role.extrato_lancamento_lambda_msk_producer_role.arn
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.zip_the_python_code_cleanup.output_base64sha256
   runtime          = "python3.11"
   timeout          = 30
   tags             = local.custom_tags
 
+  logging_config {
+    log_format = ""
+  }
+
   environment {
 
     variables = {
       "BOOTSTRAP_SERVERS" = "",
-      "AWS_REGION"        = data.aws_region.current.name,
       "KAFKA_TOPIC"       = "${local.domain_name}-topic"
     }
   }
-
-  layers = [
-
-  ]
 }
