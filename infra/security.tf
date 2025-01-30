@@ -321,10 +321,3 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_policy_attach
   policy_arn = aws_iam_policy.extrato_lancamento_glue_policy.arn
 }
 
-#######################################################################################################################
-#### Instance Profile
-#######################################################################################################################
-resource "aws_iam_instance_profile" "extrato_lancamento_instance_profile" {
-  name = "${local.domain_name}-msk-ec2client"
-  role = aws_iam_role.extrato_lancamento_msk_ec2client_role.name
-}
