@@ -281,7 +281,7 @@ resource "aws_iam_role_policy_attachment" "extrato_lancamento_lambda_msk_produce
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_iam_role_policy_attachment" "extrato_lancamento_glue_role_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "extrato_lancamento_lambda_msk_producer_role_policy_attachment" {
   role       = aws_iam_role.extrato_lancamento_lambda_msk_producer_role.name
   policy_arn = aws_iam_policy.extrato_lancamento_lambda_msk_producer_policy.arn
 }

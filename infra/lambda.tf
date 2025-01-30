@@ -117,10 +117,6 @@ resource "aws_lambda_function" "extrato_lancamento_msk_producer_kafka_function" 
   timeout          = 30
   tags             = local.custom_tags
 
-  logging_config {
-    log_format = ""
-  }
-
   environment {
 
     variables = {

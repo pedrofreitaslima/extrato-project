@@ -3,24 +3,24 @@
 #######################################################################################################################
 resource "aws_glue_registry" "extrato_lancamento_glue_registry" {
   registry_name = "${local.domain_name}-registry"
-  description = "Glue Registry for ${local.domain_name} domain which contains 2 schemas"
-  tags = local.custom_tags
+  description   = "Glue Registry for ${local.domain_name} domain which contains 2 schemas"
+  tags          = local.custom_tags
 }
 
 #######################################################################################################################
 #### Glue Schemas
 #######################################################################################################################
 resource "aws_glue_schema" "extrato_lancamento_glue_schema_avro" {
-  schema_name       = "${local.domain_name}-schema-avro"
-  description       = "Glue Schema for ${local.domain_name} in format AVRO to MSK Kafka."
-  registry_arn      = aws_glue_registry.extrato_lancamento_glue_registry.arn
-  data_format       = "AVRO"
-  compatibility     = "BACKWARD"
+  schema_name   = "${local.domain_name}-schema-avro"
+  description   = "Glue Schema for ${local.domain_name} in format AVRO to MSK Kafka."
+  registry_arn  = aws_glue_registry.extrato_lancamento_glue_registry.arn
+  data_format   = "AVRO"
+  compatibility = "BACKWARD"
   schema_definition = jsonencode({
     type      = "record"
     name      = local.schema_name
     namespace = "br.com.itau.${local.domain_name}"
-    fields    = [
+    fields = [
       {
         name = "numero_identificacao_lancamento_conta"
         type = "string"
@@ -72,8 +72,8 @@ resource "aws_glue_schema" "extrato_lancamento_glue_schema_avro" {
       {
         name = "conta"
         type = {
-          type   = "record"
-          name   = "Conta"
+          type = "record"
+          name = "Conta"
           fields = [
             {
               name = "numero_unico_conta"
@@ -88,154 +88,154 @@ resource "aws_glue_schema" "extrato_lancamento_glue_schema_avro" {
       }
     ]
   })
-  tags              = local.custom_tags
+  tags = local.custom_tags
 }
 
 resource "aws_glue_schema" "extrato_lancamento_glue_schema_json" {
-  schema_name       = "${local.domain_name}-schema-json"
-  description       = "Glue Schema for ${local.domain_name} in format JSON to OpenSearch."
-  registry_arn      = aws_glue_registry.extrato_lancamento_glue_registry.arn
-  data_format       = "JSON"
-  compatibility     = "BACKWARD"
+  schema_name   = "${local.domain_name}-schema-json"
+  description   = "Glue Schema for ${local.domain_name} in format JSON to OpenSearch."
+  registry_arn  = aws_glue_registry.extrato_lancamento_glue_registry.arn
+  data_format   = "JSON"
+  compatibility = "BACKWARD"
   schema_definition = jsonencode({
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-      "numeroIdentificacaoLancamentoConta": {
-        "type": "string"
+    "$schema" : "http://json-schema.org/draft-07/schema#",
+    "type" : "object",
+    "properties" : {
+      "numeroIdentificacaoLancamentoConta" : {
+        "type" : "string"
       },
-      "valorLancamento": {
-        "type": "number"
+      "valorLancamento" : {
+        "type" : "number"
       },
-      "codigoMoedaTransacao": {
-        "type": "string"
+      "codigoMoedaTransacao" : {
+        "type" : "string"
       },
-      "tipoEvento": {
-        "type": "string"
+      "tipoEvento" : {
+        "type" : "string"
       },
-      "siglaSistemaOrigem": {
-        "type": "string"
+      "siglaSistemaOrigem" : {
+        "type" : "string"
       },
-      "codigoMotivoLancamento": {
-        "type": "string"
+      "codigoMotivoLancamento" : {
+        "type" : "string"
       },
-      "descricaoCurta": {
-        "type": "string"
+      "descricaoCurta" : {
+        "type" : "string"
       },
-      "descricaoCompleta": {
-        "type": "string"
+      "descricaoCompleta" : {
+        "type" : "string"
       },
-      "indicadorLancamentoVisivelCliente": {
-        "type": "boolean"
+      "indicadorLancamentoVisivelCliente" : {
+        "type" : "boolean"
       },
-      "indicadorLancamentoCompulsorioOcorrencia": {
-        "type": "boolean"
+      "indicadorLancamentoCompulsorioOcorrencia" : {
+        "type" : "boolean"
       },
-      "indicadorLancamentoCompulsorioSaldo": {
-        "type": "boolean"
+      "indicadorLancamentoCompulsorioSaldo" : {
+        "type" : "boolean"
       },
-      "indicadorEstorno": {
-        "type": "boolean"
+      "indicadorEstorno" : {
+        "type" : "boolean"
       },
-      "conta": {
-        "type": "object",
-        "properties": {
-          "numeroUnicoConta": {
-            "type": "string"
+      "conta" : {
+        "type" : "object",
+        "properties" : {
+          "numeroUnicoConta" : {
+            "type" : "string"
           },
-          "codigoTipoSubConta": {
-            "type": "string"
+          "codigoTipoSubConta" : {
+            "type" : "string"
           }
         }
       },
-      "indicadorDetalhes": {
-        "type": "boolean"
+      "indicadorDetalhes" : {
+        "type" : "boolean"
       },
-      "dataContabil": {
-        "type": "string",
-        "format": "date"
+      "dataContabil" : {
+        "type" : "string",
+        "format" : "date"
       },
-      "dataHoraLancamento": {
-        "type": "string",
-        "format": "date-time"
+      "dataHoraLancamento" : {
+        "type" : "string",
+        "format" : "date-time"
       },
-      "dataHoraVisualizacao": {
-        "type": "string",
-        "format": "date-time"
+      "dataHoraVisualizacao" : {
+        "type" : "string",
+        "format" : "date-time"
       },
-      "indicadorDebito": {
-        "type": "boolean"
+      "indicadorDebito" : {
+        "type" : "boolean"
       },
-      "codigoLegenda": {
-        "type": "string"
+      "codigoLegenda" : {
+        "type" : "string"
       },
-      "descricaoLegenda": {
-        "type": "string"
+      "descricaoLegenda" : {
+        "type" : "string"
       },
-      "dica": {
-        "type": "string"
+      "dica" : {
+        "type" : "string"
       },
-      "codigoAgrupamento": {
-        "type": "string"
+      "codigoAgrupamento" : {
+        "type" : "string"
       },
-      "indicadorAnotacao": {
-        "type": "boolean"
+      "indicadorAnotacao" : {
+        "type" : "boolean"
       },
-      "indicadorLancamentoFinalOito": {
-        "type": "boolean"
+      "indicadorLancamentoFinalOito" : {
+        "type" : "boolean"
       },
-      "contraParteTransacao": {
-        "type": "object",
-        "properties": {
-          "codigoTipoConta": {
-            "type": "string"
+      "contraParteTransacao" : {
+        "type" : "object",
+        "properties" : {
+          "codigoTipoConta" : {
+            "type" : "string"
           },
-          "codigoIspb": {
-            "type": "string"
+          "codigoIspb" : {
+            "type" : "string"
           },
-          "numeroAgenciaConta": {
-            "type": "string"
+          "numeroAgenciaConta" : {
+            "type" : "string"
           },
-          "numeroConta": {
-            "type": "string"
+          "numeroConta" : {
+            "type" : "string"
           },
-          "numeroDigitoVerificadorConta": {
-            "type": "string"
+          "numeroDigitoVerificadorConta" : {
+            "type" : "string"
           },
-          "nomeClienteConta": {
-            "type": "string"
+          "nomeClienteConta" : {
+            "type" : "string"
           },
-          "numeroDocumentoConta": {
-            "type": "string"
+          "numeroDocumentoConta" : {
+            "type" : "string"
           },
-          "codigoTipoPessoaConta": {
-            "type": "string"
+          "codigoTipoPessoaConta" : {
+            "type" : "string"
           }
         }
       },
-      "origemTransacao": {
-        "type": "object",
-        "properties": {
-          "textoTipoOperacaoSistemaOrigem": {
-            "type": "string"
+      "origemTransacao" : {
+        "type" : "object",
+        "properties" : {
+          "textoTipoOperacaoSistemaOrigem" : {
+            "type" : "string"
           },
-          "siglaSistemaOrigem": {
-            "type": "string"
+          "siglaSistemaOrigem" : {
+            "type" : "string"
           },
-          "identificadorOrigemTransacao": {
-            "type": "string"
+          "identificadorOrigemTransacao" : {
+            "type" : "string"
           },
-          "identificadorProduto": {
-            "type": "string"
+          "identificadorProduto" : {
+            "type" : "string"
           },
-          "complementoCanal": {
-            "type": "string"
+          "complementoCanal" : {
+            "type" : "string"
           }
         }
       }
     }
   })
-  tags              = local.custom_tags
+  tags = local.custom_tags
 }
 
 #######################################################################################################################
@@ -256,12 +256,12 @@ resource "aws_glue_catalog_table" "extrato_lancamento_glue_catalog_table" {
   table_type = "EXTERNAL_TABLE"
 
   parameters = {
-    "classification"        = "avro"
-    "typeOfData"           = "file"
-    "averageRecordSize"    = "100"
-    "compressionType"      = "none"
+    "classification"                       = "avro"
+    "typeOfData"                           = "file"
+    "averageRecordSize"                    = "100"
+    "compressionType"                      = "none"
     "enable-updating-partition-statistics" = "true"
-    "schema.version"       = "1.0"
+    "schema.version"                       = "1.0"
   }
 
   storage_descriptor {
@@ -275,11 +275,11 @@ resource "aws_glue_catalog_table" "extrato_lancamento_glue_catalog_table" {
 
       parameters = {
         "serialization.format" = "1"
-        "avro.schema.literal"  = jsonencode({
+        "avro.schema.literal" = jsonencode({
           type      = "record"
-          name      = schema_name
+          name      = var.schema_name
           namespace = "br.com.itau.${local.domain_name}"
-          fields    = [
+          fields = [
             {
               name = "numero_identificacao_lancamento_conta"
               type = "string"
@@ -331,8 +331,8 @@ resource "aws_glue_catalog_table" "extrato_lancamento_glue_catalog_table" {
             {
               name = "conta"
               type = {
-                type   = "record"
-                name   = "Conta"
+                type = "record"
+                name = "Conta"
                 fields = [
                   {
                     name = "numero_unico_conta"
@@ -399,8 +399,8 @@ resource "aws_glue_catalog_table" "extrato_lancamento_glue_catalog_table" {
       type = "boolean"
     }
     columns {
-      name    = "conta"
-      type    = "struct<numero_unico_conta:string,codigo_tipo_sub_conta:string>"
+      name = "conta"
+      type = "struct<numero_unico_conta:string,codigo_tipo_sub_conta:string>"
     }
   }
 }
@@ -453,7 +453,7 @@ resource "aws_glue_job" "extrato_lancamento_glue_job" {
   number_of_workers = var.number_of_workers
   glue_version      = var.glue_version
   default_arguments = {
-    "--continuous-log-logGroup": aws_cloudwatch_log_group.extrato_lancamento_glue_job_log_group.name
+    "--continuous-log-logGroup" : aws_cloudwatch_log_group.extrato_lancamento_glue_job_log_group.name
     "--enable-continuous-cloudwatch-log" : "true"
     "--enable-job-insights" : "true"
     "--enable-metrics" : "true"

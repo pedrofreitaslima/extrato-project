@@ -110,22 +110,22 @@ output "extrato_lancamento_lambda_msk_produce_iam_policy_arn" {
 }
 
 output "extrato_lancamento_lambda_msk_getbroker_iam_role_arn" {
-  value = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.arn
+  value       = aws_iam_role.extrato_lancamento_lambda_msk_getbroker_role.arn
   description = "The ARN of the IAM role to glue dedicated to project Extrato Lancamento"
 }
 
 output "extrato_lancamento_lambda_msk_getbroke_iam_policy_arn" {
-  value = aws_iam_policy.extrato_lancamento_lambda_msk_getbroker_policy.arn
+  value       = aws_iam_policy.extrato_lancamento_lambda_msk_getbroker_policy.arn
   description = "The ARN of the IAM policy to lambda dedicated to project Extrato Lancamento"
 }
 
 output "extrato_lancamento_lambda_cleanup_iam_role_arn" {
-  value = aws_iam_role.extrato_lancamento_lambda_cleanup_role.arn
+  value       = aws_iam_role.extrato_lancamento_lambda_cleanup_role.arn
   description = "The ARN of the IAM role to lambda dedicated to project Extrato Lancamento"
 }
 
 output "extrato_lancamento_lambda_cleanup_iam_policy_arn" {
-  value = aws_iam_policy.extrato_lancamento_lambda_cleanup_policy.arn
+  value       = aws_iam_policy.extrato_lancamento_lambda_cleanup_policy.arn
   description = "The ARN of the IAM policy to lambda dedicated to project Extrato Lancamento"
 }
 
