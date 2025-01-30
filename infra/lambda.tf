@@ -9,7 +9,7 @@ data "archive_file" "zip_the_python_code_getbroker" {
 
 resource "aws_lambda_function" "extrato_lancamento_msk_bootstrap_brokers_function" {
   filename         = data.archive_file.zip_the_python_code_getbroker.output_path
-  function_name    = "${local.domain_name}-msk-bootstrap-brokers"
+  function_name    = "${local.domain_name}-msk-getbrokers"
   role             = aws_iam_role.extrato_lancamento_lambda_msk_getbroker_role.arn
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.zip_the_python_code_getbroker.output_base64sha256
@@ -47,7 +47,7 @@ data "archive_file" "zip_the_python_code_cleanup" {
 
 resource "aws_lambda_function" "extrato_lancamento_msk_cleanup_function" {
   filename         = data.archive_file.zip_the_python_code_cleanup.output_path
-  function_name    = "${local.domain_name}-msk-cleanup-s3bucket-iamrole"
+  function_name    = "${local.domain_name}-cleanup"
   role             = aws_iam_role.extrato_lancamento_lambda_cleanup_role.arn
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.zip_the_python_code_cleanup.output_base64sha256
@@ -97,13 +97,12 @@ output "extrato_lancamento_msk_cleanup_output_function_result" {
   value = jsondecode(aws_lambda_invocation.extrato_lancamento_cleanup_output_invocation.result)
 }
 
-
 # #######################################################################################################################
 # #### Lambda Producer Event Kafka
 # #######################################################################################################################
 data "archive_file" "zip_the_python_code_producer_kafka" {
   type        = "zip"
-  source_dir  = "${path.module}/../app/lambda_producer_kafka/"
+  source_dir  = "${path.module}/../app/lambda_mskserverless_producer/"
   output_path = "${path.module}/lambda_function_producer_kafka.zip"
 }
 
