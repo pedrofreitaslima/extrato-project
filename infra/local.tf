@@ -1,11 +1,11 @@
 locals {
   domain_name     = "extrato-lancamento-efetivado"
-  project_purpose = "dry-run-aws"
+  project_purpose = "aws-dry-run-for-itau-extrato"
   author_name     = "pedrofreitaslima"
   custom_tags = {
     "ProjectName"    = local.domain_name,
-    "Environment"    = var.environment,
     "ProjectPurpose" = local.project_purpose,
     "Author"         = local.author_name
   }
+  schema_name = "ExtratoLancamentoEfetivado"
 }
