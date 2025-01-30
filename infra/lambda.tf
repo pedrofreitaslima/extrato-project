@@ -96,3 +96,37 @@ resource "aws_lambda_invocation" "extrato_lancamento_cleanup_output_invocation" 
 output "extrato_lancamento_msk_cleanup_output_function_result" {
   value = jsondecode(aws_lambda_invocation.extrato_lancamento_cleanup_output_invocation.result)
 }
+
+
+# #######################################################################################################################
+# #### Lambda Producer Event Kafka
+# #######################################################################################################################
+data "archive_file" "zip_the_python_code_producer_kafka" {
+  type        = "zip"
+  source_dir  = "${path.module}/../app/lambda_producer_kafka/"
+  output_path = "${path.module}/lambda_function_producer_kafka.zip"
+}
+
+resource "aws_lambda_function" "extrato_lancamento_msk_producer_kafka_function" {
+  filename         = data.archive_file.zip_the_python_code_producer_kafka.output_path
+  function_name    = "${local.domain_name}-msk-producer-kafka"
+  role             = aws_iam_role.extrato_lancamento_msk_producer_kafka_lambda_role.arn
+  handler          = "lambda_function.lambda_handler"
+  source_code_hash = data.archive_file.zip_the_python_code_cleanup.output_base64sha256
+  runtime          = "python3.11"
+  timeout          = 30
+  tags             = local.custom_tags
+
+  environment {
+
+    variables = {
+      "BOOTSTRAP_SERVERS" = "",
+      "AWS_REGION" = data.aws_region.current.name,
+      "KAFKA_TOPIC" = "${local.domain_name}-topic"
+    }
+  }
+
+  layers = [
+
+  ]
+}
