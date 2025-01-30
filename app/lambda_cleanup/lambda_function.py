@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+session = boto3.session.Session(region_name='us-east-1')
 
 
 def lambda_handler(event, context):
@@ -16,13 +17,13 @@ def lambda_handler(event, context):
             raise ValueError("Missing required parameters in event")
 
         # Initialize S3 client
-        s3 = boto3.resource('s3')
+        s3 = session.resource('s3')
         bucket = s3.Bucket(bucket_name)
         for obj in bucket.objects.filter():
             s3.Object(bucket.name, obj.key).delete()
 
         # Initialize IAM client
-        iam = boto3.client('iam')
+        iam = session.client('iam')
         attached_policies = iam.list_attached_role_policies(RoleName=iam_role)
         for policy in attached_policies['AttachedPolicies']:
             iam.detach_role_policy(RoleName=iam_role, PolicyArn=policy['PolicyArn'])
@@ -49,14 +50,14 @@ def lambda_handler(event, context):
         }
 
 
-# if __name__ == "__main__":
-#     event = {
-#         "BucketName": "aws-gluescript-extrato-lancamento-efetivado",
-#         "IamRole": "extrato-lancamento-efetivado-glue-msk-getbroker-role"
-#     }
-#
-#     context = {
-#
-#     }
-#
-#     lambda_handler(event, context)
+if __name__ == "__main__":
+    event = {
+        "BucketName": "aws-gluescript-extrato-lancamento-efetivado",
+        "IamRole": "extrato-lancamento-efetivado-glue-msk-getbroker-role"
+    }
+
+    context = {
+
+    }
+
+    lambda_handler(event, context)
