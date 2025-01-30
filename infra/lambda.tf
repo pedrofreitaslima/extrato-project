@@ -121,8 +121,8 @@ resource "aws_lambda_function" "extrato_lancamento_msk_producer_kafka_function" 
 
     variables = {
       "BOOTSTRAP_SERVERS" = "",
-      "AWS_REGION" = data.aws_region.current.name,
-      "KAFKA_TOPIC" = "${local.domain_name}-topic"
+      "AWS_REGION"        = data.aws_region.current.name,
+      "KAFKA_TOPIC"       = "${local.domain_name}-topic"
     }
   }
 
