@@ -89,37 +89,113 @@ output "extrato_lancamento_sg_egress_all_arn" {
 #######################################################################################################################
 #### Security
 #######################################################################################################################
-output "extrato_lancamento_msk_ec2client_role_arn" {
-  value       = aws_iam_role.extrato_lancamento_msk_producer_kafka_lambda_role.arn
-  description = "The ARN of the iam role dedicated to project Extrato Lancamento"
+output "extrato_lancamento_glue_iam_role_arn" {
+  value       = aws_iam_role.extrato_lancamento_glue_role.arn
+  description = "The ARN of the IAM role to glue dedicated to project Extrato Lancamento"
 }
 
-output "extrato_lancamento_glue_msk_secleanup_role_arn" {
-  value       = aws_iam_role.extrato_lancamento_glue_msk_secleanup_role.arn
-  description = "The ARN of the iam role dedicated to project Extrato Lancamento for s3 clean up"
+output "extrato_lancamento_glue_iam_policy_arn" {
+  value       = aws_iam_policy.extrato_lancamento_glue_policy.arn
+  description = "The ARN of the IAM role to glue dedicated to project Extrato Lancamento"
 }
-output "extrato_lancamento_glue_msk_getbroker_role_arn" {
-  value       = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.arn
-  description = "The ARN of the iam role dedicated to project Extrato Lancamento for get broker msk"
+
+output "extrato_lancamento_lambda_msk_produce_iam_role_arn" {
+  value       = aws_iam_role.extrato_lancamento_lambda_msk_producer_role.arn
+  description = "The ARN of the IAM role to lambda dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_lambda_msk_produce_iam_policy_arn" {
+  value       = aws_iam_policy.extrato_lancamento_lambda_msk_producer_policy.arn
+  description = "The ARN of the IAM policy to lambda dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_lambda_msk_getbroker_iam_role_arn" {
+  value = aws_iam_role.extrato_lancamento_glue_msk_getbroker_role.arn
+  description = "The ARN of the IAM role to glue dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_lambda_msk_getbroke_iam_policy_arn" {
+  value = aws_iam_policy.extrato_lancamento_lambda_msk_getbroker_policy.arn
+  description = "The ARN of the IAM policy to lambda dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_lambda_cleanup_iam_role_arn" {
+  value = aws_iam_role.extrato_lancamento_lambda_cleanup_role.arn
+  description = "The ARN of the IAM role to lambda dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_lambda_cleanup_iam_policy_arn" {
+  value = aws_iam_policy.extrato_lancamento_lambda_cleanup_policy.arn
+  description = "The ARN of the IAM policy to lambda dedicated to project Extrato Lancamento"
 }
 
 #######################################################################################################################
-#### S3 Buckets
+#### Storage
 #######################################################################################################################
-output "extrato_lancamento_s3_bucket_glueoutput_arn" {
-  value       = aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn
+output "extrato_lancamento_s3_bucket_input_glue_arn" {
+  value       = aws_s3_bucket.extrato_lancamento_input_glue_bucket.arn
+  description = "The ARN of the S3 bucket dedicated to project Extrato Lancamento for glue input"
+}
+
+output "extrato_lancamento_s3_bucket_output_glue_arn" {
+  value       = aws_s3_bucket.extrato_lancamento_output_glue_bucket.arn
   description = "The ARN of the S3 bucket dedicated to project Extrato Lancamento for glue output"
 }
 
-output "extrato_lancamento_gluescript_bucket" {
-  value       = aws_s3_bucket.extrato_lancamento_glueoutput_bucket.arn
-  description = "The ARN of the S3 bucket dedicated to project Extrato Lancamento for glue script"
-}
-
 #######################################################################################################################
-#### MSK Cluster
+#### MSK
 #######################################################################################################################
 output "extrato_lancamento_msk_serverless_cluster_arn" {
   value       = aws_msk_serverless_cluster.extrato_lancamento_msk_serverless_cluster.arn
   description = "The ARN of the MSK serverless cluster dedicated to project Extrato Lancamento"
 }
+
+#######################################################################################################################
+#### Glue
+#######################################################################################################################
+output "extrato_lancamento_glue_registry_arn" {
+  value       = aws_glue_registry.extrato_lancamento_glue_registry.arn
+  description = "The ARN of the Glue registry dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_schema_avro_arn" {
+  value       = aws_glue_schema.extrato_lancamento_glue_schema_avro.arn
+  description = "The ARN of the Glue schema with AVRO format dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_schema_json_arn" {
+  value       = aws_glue_schema.extrato_lancamento_glue_schema_json.arn
+  description = "The ARN of the Glue schema with JSON format dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_catalog_database_arn" {
+  value       = aws_glue_catalog_database.extrato_lancamento_glue_catalog_database.arn
+  description = "The ARN of the Glue catalog database dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_catalog_table_arn" {
+  value       = aws_glue_catalog_table.extrato_lancamento_glue_catalog_table.arn
+  description = "The ARN of the Glue catalog table dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_connection_arn" {
+  value       = aws_glue_connection.extrato_lancamento_glue_connection.arn
+  description = "The ARN of the Glue connection with MSK Kafka dedicated to project Extrato Lancamento"
+}
+
+output "extrato_lancamento_glue_job_arn" {
+  value       = aws_glue_job.extrato_lancamento_glue_job.arn
+  description = "The ARN of the Glue Job dedicated to project Extrato Lancamento"
+}
+
+#######################################################################################################################
+#### Observability
+#######################################################################################################################
+output "extrato_lancamento_glue_job_cloudwatch_log_group_arn" {
+  value       = aws_cloudwatch_log_group.extrato_lancamento_glue_job_log_group.arn
+  description = "The ARN of the Cloudwatch log group for glue job dedicated to project Extrato Lancamento"
+}
+
+#######################################################################################################################
+#### OpenSearch
+#######################################################################################################################
